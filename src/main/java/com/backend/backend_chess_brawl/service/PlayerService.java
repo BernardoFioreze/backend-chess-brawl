@@ -1,5 +1,7 @@
 package com.backend.backend_chess_brawl.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +32,10 @@ public class PlayerService implements IPlayerService {
     @Override
     public Player findByNickname(String nickname) {
         return playerRepository.findByNickname(nickname).orElse(null);
+    }
+
+    @Override
+    public List<Player> findAllPlayers() {
+        return playerRepository.findAll();
     }
 }

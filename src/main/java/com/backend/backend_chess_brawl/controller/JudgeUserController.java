@@ -27,7 +27,7 @@ public class JudgeUserController {
     private TournamentService tournamentService;
 
     @PostMapping("/api/registration")
-    public ResponseEntity<?> register(@RequestBody Player player){
+    public ResponseEntity<?> registerPlayer(@RequestBody Player player){
         if(playerService.findByNickname(player.getNickname()) != null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
