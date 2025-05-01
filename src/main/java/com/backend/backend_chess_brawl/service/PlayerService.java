@@ -1,0 +1,27 @@
+package com.backend.backend_chess_brawl.service;
+
+import org.springframework.stereotype.Service;
+
+import com.backend.backend_chess_brawl.model.Player;
+import com.backend.backend_chess_brawl.repository.PlayerRepository;
+
+@Service
+public class PlayerService implements IPlayerService {
+
+    private PlayerRepository playerRepository;
+
+    @Override
+    public Player savePlayer(final Player player) {
+        return playerRepository.save(player);
+    }
+
+    @Override
+    public void deletePlayer(final Long playerId) {
+        playerRepository.deleteById(playerId);
+    }
+
+    @Override
+    public Player findById(final Long playerId) {
+        return playerRepository.findById(playerId).orElse(null);
+    }
+}

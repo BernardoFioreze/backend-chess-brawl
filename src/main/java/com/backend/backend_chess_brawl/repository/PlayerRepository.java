@@ -8,6 +8,7 @@ import com.backend.backend_chess_brawl.model.Player;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    Optional<Player> findByName(String name);
+    @Override
+    Optional<Player> findById(Long id);
 
 }
