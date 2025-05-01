@@ -1,5 +1,7 @@
 package com.backend.backend_chess_brawl.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +31,21 @@ public class JudgeUserController {
     @PostMapping("/api/registration")
     public ResponseEntity<?> registerPlayer(@RequestBody Player player){
         if(playerService.findByNickname(player.getNickname()) != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Usuario já existente", HttpStatus.CONFLICT);
         }
 
         Player savedPlayer = playerService.savePlayer(player);
         return new ResponseEntity<>(savedPlayer, HttpStatus.CREATED);
+    }
+
+    @PostMapping("api/tournament")
+    public ResponseEntity<?> startTournament(@RequestBody List<Player> players) {
+        if(players.size() < 3 || players.size() % 2 != 0) {
+            return new ResponseEntity<>("Numero de participantes incorreto", HttpStatus.CONFLICT);
+        }
+
+        List<Player> validList = playerService.findAllPlayers();
+        return new ResponseEntity<>(validList, HttpStatus.CREATED);
     }
 
 }
