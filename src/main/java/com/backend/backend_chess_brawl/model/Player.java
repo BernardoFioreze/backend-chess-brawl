@@ -48,4 +48,9 @@ public class Player {
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
+    public String getNickname() {
+        return this.nickname;
+    }
+    
+
 }

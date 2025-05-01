@@ -10,4 +10,6 @@ public interface IPlayerService {
 
     Player findById(Long palyerId);
 
+    Player findByNickname(String nickname);
+
 }

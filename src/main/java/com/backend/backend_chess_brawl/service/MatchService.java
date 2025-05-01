@@ -1,10 +1,13 @@
 package com.backend.backend_chess_brawl.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.backend.backend_chess_brawl.model.Match;
 import com.backend.backend_chess_brawl.repository.MatchRepository;
 
 public class MatchService implements IMatchService {
 
+    @Autowired
      private MatchRepository matchRepository;
 
     @Override
