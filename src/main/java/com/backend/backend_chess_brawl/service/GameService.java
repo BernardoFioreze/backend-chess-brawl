@@ -1,10 +1,12 @@
 package com.backend.backend_chess_brawl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.backend.backend_chess_brawl.model.Game;
 import com.backend.backend_chess_brawl.repository.GameRepository;
 
+@Service
 public class GameService implements IGameService {
 
     @Autowired

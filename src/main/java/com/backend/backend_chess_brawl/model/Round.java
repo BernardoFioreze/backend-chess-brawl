@@ -19,6 +19,10 @@ import lombok.Data;
 @Table(name = "round")
 public class Round {
 
+    public Round() {
+        
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

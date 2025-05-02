@@ -17,6 +17,10 @@ import lombok.Data;
 @Table(name = "tournament")
 public class Tournament {
 
+    public Tournament() {
+        
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

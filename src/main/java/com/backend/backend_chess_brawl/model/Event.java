@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -14,6 +13,11 @@ import lombok.Data;
 @Entity
 @Table(name = "event")
 public class Event {
+
+    public Event(String name, Integer weight) {
+        this.name = name;
+        this.weight = weight;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +30,6 @@ public class Event {
     private Integer weight;
 
     @ManyToOne
-    @JoinColumn(name = "player_id")
     private Player player;
 
 }

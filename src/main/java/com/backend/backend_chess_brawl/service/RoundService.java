@@ -1,10 +1,12 @@
 package com.backend.backend_chess_brawl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.backend.backend_chess_brawl.model.Round;
 import com.backend.backend_chess_brawl.repository.RoundRepository;
 
+@Service
 public class RoundService implements IRoundService {
 
     @Autowired

@@ -21,6 +21,14 @@ import lombok.Data;
 @Table(name = "player")
 public class Player {
 
+    public Player(String name, String nickname, String ranking) {
+        this.name = name;
+        this.nickname = nickname;
+        this.ranking = ranking;
+        this.score = 70;
+        this.status = Status.PLAYING;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
