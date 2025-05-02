@@ -15,6 +15,12 @@ import lombok.Data;
 @Table(name = "game")
 public class Game {
 
+    public Game(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.isFinished = false;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
