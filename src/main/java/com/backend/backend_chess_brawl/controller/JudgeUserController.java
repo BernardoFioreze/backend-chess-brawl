@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.backend_chess_brawl.model.Player;
 import com.backend.backend_chess_brawl.service.EventService;
-import com.backend.backend_chess_brawl.service.MatchService;
+import com.backend.backend_chess_brawl.service.GameService;
 import com.backend.backend_chess_brawl.service.PlayerService;
 import com.backend.backend_chess_brawl.service.RoundService;
 import com.backend.backend_chess_brawl.service.TournamentService;
@@ -22,7 +22,7 @@ public class JudgeUserController {
     
     private EventService eventService;
     
-    private MatchService matchService;
+    private GameService gameService;
 
     private RoundService roundService;
 

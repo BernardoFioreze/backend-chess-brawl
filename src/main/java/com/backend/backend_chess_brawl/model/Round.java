@@ -27,7 +27,7 @@ public class Round {
     private boolean isFinished;
 
     @OneToMany(mappedBy = "round", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Match> matches;
+    private List<Game> games;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")

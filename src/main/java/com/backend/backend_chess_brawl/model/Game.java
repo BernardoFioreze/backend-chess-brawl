@@ -12,8 +12,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "match")
-public class Match {
+@Table(name = "game")
+public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
