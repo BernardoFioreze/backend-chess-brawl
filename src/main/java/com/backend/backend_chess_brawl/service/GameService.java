@@ -10,6 +10,7 @@ public class GameService implements IGameService {
     @Autowired
     private GameRepository gameRepository;
 
+    @Override
     public Game saveGame(Game game) {
         return gameRepository.save(game);
     }
