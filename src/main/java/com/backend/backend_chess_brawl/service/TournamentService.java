@@ -13,7 +13,9 @@ public class TournamentService implements ITournamentService {
     private TournamentRepository tournamentRepository;
 
     @Override
-    public Tournament saveTournament(Tournament tournament) {
+    public Tournament startTournament() {
+        Tournament tournament = new Tournament();
+
         return tournamentRepository.save(tournament);
     }
 

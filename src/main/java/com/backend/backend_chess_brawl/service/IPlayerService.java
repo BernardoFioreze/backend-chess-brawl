@@ -6,7 +6,7 @@ import com.backend.backend_chess_brawl.model.Player;
 
 public interface IPlayerService {
 
-    Player savePlayer(Player player);
+    Player addPlayerToTurnament(Long tournamentId, String name, String nickname, String ranking);
 
     void deletePlayer(Long playerId);
 
