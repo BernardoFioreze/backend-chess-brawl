@@ -14,6 +14,10 @@ import lombok.Data;
 @Table(name = "event")
 public class Event {
 
+    public Event() {
+        
+    }
+
     public Event(String name, Integer weight) {
         this.name = name;
         this.weight = weight;

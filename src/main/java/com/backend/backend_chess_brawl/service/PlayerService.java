@@ -1,10 +1,14 @@
 package com.backend.backend_chess_brawl.service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.backend.backend_chess_brawl.model.Event;
 import com.backend.backend_chess_brawl.model.Player;
 import com.backend.backend_chess_brawl.model.Tournament;
 import com.backend.backend_chess_brawl.repository.PlayerRepository;
@@ -31,6 +35,34 @@ public class PlayerService implements IPlayerService {
     }
 
     @Override
+    public Player addEvent(List<Event> events, Long playerId) {
+        
+        Player player = playerRepository.findById(playerId)
+        .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
+
+        Set<Long> existingIds = player.getEvents().stream()
+        .map(Event::getId)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toSet());
+
+        for (Event event : events) {
+            Long eventId = event.getId();
+            if (eventId != null && existingIds.contains(eventId)) {
+                throw new IllegalStateException("Evento já atribuído ao jogador: ID " + eventId);
+            }
+
+            event.setPlayer(player);
+
+            player.setScore(player.getScore() + event.getWeight());
+        }
+
+        player.getEvents().addAll(events);
+
+        return playerRepository.save(player);
+    }
+    
+
+    @Override
     public void deletePlayer(Long playerId) {
         playerRepository.deleteById(playerId);
     }
@@ -49,4 +81,5 @@ public class PlayerService implements IPlayerService {
     public List<Player> findAllPlayers() {
         return playerRepository.findAll();
     }
+
 }
