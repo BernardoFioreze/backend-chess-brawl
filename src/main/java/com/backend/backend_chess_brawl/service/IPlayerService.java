@@ -9,6 +9,8 @@ public interface IPlayerService {
 
     Player addPlayerToTurnament(Long tournamentId, String name, String nickname, String ranking);
 
+    List<Player> getPlayersByTournamentId(Long tournamentID);
+
     Player addEvent(List<Event> events, Long playerId);
 
     void deletePlayer(Long playerId);

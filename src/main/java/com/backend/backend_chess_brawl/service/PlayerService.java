@@ -60,6 +60,14 @@ public class PlayerService implements IPlayerService {
 
         return playerRepository.save(player);
     }
+
+    @Override
+    public List<Player>getPlayersByTournamentId(Long tournamentId) {
+        Tournament tournament = tournamentRepository.findById(tournamentId)
+        .orElseThrow(() -> new RuntimeException("Torneio não encontrado"));
+
+        return playerRepository.findByTournament(tournament);
+    }
     
 
     @Override

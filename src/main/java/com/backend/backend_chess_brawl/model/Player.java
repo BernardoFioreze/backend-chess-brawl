@@ -29,6 +29,10 @@ public class Player {
         this.status = Status.PLAYING;
     }
 
+    public Player() {
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,6 +58,7 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private Tournament tournament;
 
 
