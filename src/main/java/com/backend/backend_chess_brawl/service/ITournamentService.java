@@ -4,7 +4,9 @@ import com.backend.backend_chess_brawl.model.Tournament;
 
 public interface ITournamentService {
  
-    Tournament startTournament();
+    Tournament createTournament();
+
+    Tournament startTournament(Long tournamentId);
 
     Tournament findById(Long tournamentId);
 

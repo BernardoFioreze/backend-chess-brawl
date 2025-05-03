@@ -1,16 +1,14 @@
 package com.backend.backend_chess_brawl.controller;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.backend_chess_brawl.model.Game;
+import com.backend.backend_chess_brawl.dtos.PlayerDTO;
 import com.backend.backend_chess_brawl.model.Player;
+import com.backend.backend_chess_brawl.model.Tournament;
 import com.backend.backend_chess_brawl.service.EventService;
 import com.backend.backend_chess_brawl.service.GameService;
 import com.backend.backend_chess_brawl.service.PlayerService;
@@ -30,40 +28,30 @@ public class JudgeUserController {
 
     private TournamentService tournamentService;
 
-    @PostMapping("/api/registration")
-    public ResponseEntity<?> registerPlayer(@RequestBody Player player){
-        if(playerService.findByNickname(player.getNickname()) != null) {
-            return new ResponseEntity<>("Usuario já existente", HttpStatus.CONFLICT);
-        }
-
-        Player savedPlayer = playerService.savePlayer(player);
-        return new ResponseEntity<>(savedPlayer, HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<Tournament> createTournament() {
+        Tournament tournament = tournamentService.createTournament();
+        return ResponseEntity.ok(tournament);
     }
 
-    @PostMapping("api/tournament")
-    public ResponseEntity<?> startTournament(@RequestBody List<Player> players) {
-        if(players.size() < 3 || players.size() % 2 != 0) {
-            return new ResponseEntity<>("Numero de participantes incorreto", HttpStatus.CONFLICT);
-        }
+    @PostMapping("/{id}/player")
+    public ResponseEntity<Player> registerPlayerInTournament(@PathVariable Long tournamentId, @RequestBody PlayerDTO playerDTO){
+        Player player = playerService.addPlayerToTurnament(
+            tournamentId,
+            playerDTO.getName(),
+            playerDTO.getNickname(),
+            playerDTO.getRanking()
+            );
+            return ResponseEntity.ok(player);
+    }
+    
+    @PostMapping("/{tournamentId}/startTournament")
+    public ResponseEntity<?> startTournament(@PathVariable Long tournamentId) {
+        Tournament tournament = tournamentService.startTournament(tournamentId);
 
-        List<Player> validList = playerService.findAllPlayers();
-        return new ResponseEntity<>(validList, HttpStatus.CREATED);
+        return ResponseEntity.ok(tournament);
     }
 
-    @PostMapping("api/tournament/round")
-    public ResponseEntity<?> matchingKey(@RequestBody List<Player> validList) {
-        Collections.shuffle(validList);
-        
 
-        for (int i = 0; i < validList.size() - 1; i += 2) {
-            Player player1 = validList.get(i);
-            Player player2 = validList.get(i + 1);
-            
-            Game game = new Game(player1, player2);
-            gameService.saveGame(game);
-        }
-
-        return new ResponseEntity<>("Partidas Criadas com sucesso", HttpStatus.CREATED);
-    }
 
 }

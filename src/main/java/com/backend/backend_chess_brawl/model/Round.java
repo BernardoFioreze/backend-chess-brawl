@@ -19,8 +19,9 @@ import lombok.Data;
 @Table(name = "round")
 public class Round {
 
-    public Round() {
-        
+    public Round(List<Game> games) {
+        this.games = games;
+        this.isFinished = false;
     }
 
     @Id
