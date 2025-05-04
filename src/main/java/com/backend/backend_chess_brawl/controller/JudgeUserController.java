@@ -28,15 +28,15 @@ import com.backend.backend_chess_brawl.service.TournamentService;
 @RestController
 public class JudgeUserController {
 
-    private PlayerService playerService;
+    private final PlayerService playerService;
     
-    private EventService eventService;
+    private final EventService eventService;
     
-    private GameService gameService;
+    private final GameService gameService;
 
-    private RoundService roundService;
+    private final RoundService roundService;
 
-    private TournamentService tournamentService;
+    private final TournamentService tournamentService;
 
     public JudgeUserController(
         PlayerService playerService,
