@@ -110,12 +110,14 @@ public class JudgeUserController {
 
     }
     
+    // Calcula o vencedor de cada game
     @PostMapping("/game")
     public ResponseEntity<Game> gameCalScore(@RequestBody GameDTO gameDTO) {
         Game game = gameService.calculateScore(gameDTO);
         return ResponseEntity.ok(game);
     }
 
+    // Cria uma nova roda em um torneio
     @PostMapping("/{tournamentId}")
     public ResponseEntity<Tournament> createRound(@PathVariable Long tournamentId) {
         Tournament tournament = tournamentService.createRound(tournamentId);
