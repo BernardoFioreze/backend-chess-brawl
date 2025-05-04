@@ -19,6 +19,7 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.isFinished = false;
+        this.winner = null;
     }
 
     @Id
@@ -35,6 +36,10 @@ public class Game {
 
     @Column(name = "isFinished")
     private boolean isFinished;
+
+    @ManyToOne
+    @JoinColumn(name = "winner_id")
+    private Player winner;
 
     @ManyToOne
     @JoinColumn(name = "round_id")

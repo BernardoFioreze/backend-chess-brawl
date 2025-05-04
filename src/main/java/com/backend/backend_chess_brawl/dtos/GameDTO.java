@@ -1,13 +1,15 @@
 package com.backend.backend_chess_brawl.dtos;
 
-import com.backend.backend_chess_brawl.model.Player;
-
 import lombok.Data;
 
 @Data
 public class GameDTO {
 
-    private Player player1;
+    private Long player1Id;
 
-    private Player player2;
+    private Long player2Id;
+
+    private String winner;
+
+    private Long roundId;
 }

@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.backend_chess_brawl.dtos.EventDTO;
+import com.backend.backend_chess_brawl.dtos.GameDTO;
 import com.backend.backend_chess_brawl.dtos.PlayerDTO;
 import com.backend.backend_chess_brawl.model.Event;
+import com.backend.backend_chess_brawl.model.Game;
 import com.backend.backend_chess_brawl.model.Player;
 import com.backend.backend_chess_brawl.model.Tournament;
 import com.backend.backend_chess_brawl.service.EventService;
@@ -49,12 +51,14 @@ public class JudgeUserController {
         this.tournamentService = tournamentService;
     }
 
+    // Primeiro acesso a api
     @PostMapping("/api/chessBrawl")
     public ResponseEntity<Tournament> createTournament() {
         Tournament tournament = tournamentService.createTournament();
         return ResponseEntity.ok(tournament);
     }
 
+    // Criação de Usuarios
     @PostMapping("/{tournamentId}/player")
     public ResponseEntity<Player> registerPlayerInTournament(@PathVariable Long tournamentId, @RequestBody PlayerDTO playerDTO) {    
         Player player = playerService.addPlayerToTurnament(
@@ -66,6 +70,7 @@ public class JudgeUserController {
             return ResponseEntity.ok(player);
     }
 
+    // Consulta aos usuarios de um torneio
     @GetMapping("/{tournamentId}/players")
     public ResponseEntity<List<PlayerDTO>> getPlayersByTournament(@PathVariable Long tournamentId) {
         List<Player> players = playerService.getPlayersByTournamentId(tournamentId);
@@ -80,7 +85,8 @@ public class JudgeUserController {
 
     return ResponseEntity.ok(playerDTOs);
 }
-    
+
+    // Inicialização de um torneio
     @PostMapping("/{tournamentId}/startTournament")
     public ResponseEntity<Tournament> startTournament(@PathVariable Long tournamentId) {
         Tournament tournament = tournamentService.startTournament(tournamentId);
@@ -88,6 +94,7 @@ public class JudgeUserController {
         return ResponseEntity.ok(tournament);
     }
 
+    // Adiciona eventos em um player
     @PostMapping("/{playerId}/events")
     public ResponseEntity<Player> addEventesToPlayer(@PathVariable Long playerId, @RequestBody List<EventDTO> eventDTOs) {
         List<Event> events = eventDTOs.stream().map(dto -> {
@@ -101,6 +108,12 @@ public class JudgeUserController {
 
         return ResponseEntity.ok(player); 
 
+    }
+    
+    @PostMapping("/game")
+    public ResponseEntity<Game> gameCalScore(@RequestBody GameDTO gameDTO) {
+        Game game = gameService.calculateScore(gameDTO);
+        return ResponseEntity.ok(game);
     }
 
 

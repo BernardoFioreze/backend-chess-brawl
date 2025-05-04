@@ -52,6 +52,11 @@ public class TournamentService implements ITournamentService {
         }
 
         Round round = new Round(games);
+
+        for (Game game : games) {
+            game.setRound(round);
+        }
+        
         tournament.getRounds().add(round);
 
         return tournamentRepository.save(tournament);
