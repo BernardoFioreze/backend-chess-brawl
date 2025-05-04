@@ -3,6 +3,7 @@ package com.backend.backend_chess_brawl.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.backend.backend_chess_brawl.service.PlayerService;
 import com.backend.backend_chess_brawl.service.RoundService;
 import com.backend.backend_chess_brawl.service.TournamentService;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class JudgeUserController {
 
