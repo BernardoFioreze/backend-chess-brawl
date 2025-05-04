@@ -41,7 +41,7 @@ public class TournamentService implements ITournamentService {
         }
 
         Collections.shuffle(players);
-        List<Game> games = new ArrayList<Game>();
+        List<Game> games = new ArrayList<>();
 
         for (int i = 0; i < players.size(); i += 2) {
             Player player1 = players.get(i);
@@ -63,6 +63,34 @@ public class TournamentService implements ITournamentService {
         
     }
 
+    @Override
+    public Tournament createRound(Long tournamentId) {
+        Tournament tournament = tournamentRepository.findById(tournamentId)
+        .orElseThrow(() -> new RuntimeException("Torneio não encontrado"));
+        List<Player> players = tournament.getPlayers();
+
+        Collections.shuffle(players);
+        List<Game> games = new ArrayList<>();
+
+        for (int i = 0; i < players.size(); i += 2) {
+            Player player1 = players.get(i);
+            Player player2 = players.get(i + 1);
+
+            Game game = new Game(player1, player2);
+            games.add(gameService.saveGame(game));
+        }
+
+        Round round = new Round(games);
+
+        for (Game game : games) {
+            game.setRound(round);
+        }
+        
+        tournament.getRounds().add(round);
+
+        return tournamentRepository.save(tournament);
+
+    }
 
     @Override
     public Tournament findById(Long tournamentId) {

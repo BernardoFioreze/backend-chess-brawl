@@ -116,6 +116,13 @@ public class JudgeUserController {
         return ResponseEntity.ok(game);
     }
 
+    @PostMapping("/{tournamentId}")
+    public ResponseEntity<Tournament> createRound(@PathVariable Long tournamentId) {
+        Tournament tournament = tournamentService.createRound(tournamentId);
+
+        return ResponseEntity.ok(tournament);
+    }
+
 
 
 }
