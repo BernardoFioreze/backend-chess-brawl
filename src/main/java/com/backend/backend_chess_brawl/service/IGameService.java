@@ -7,7 +7,7 @@ public interface IGameService {
 
     Game calculateScore(GameDTO gameDTO);
     
-    Game saveGame(Game game);
+    Game saveGame(Game game, Long roundId);
 
     Game findById(Long gameId);
 

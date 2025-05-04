@@ -55,7 +55,10 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Game saveGame(Game game) {
+    public Game saveGame(Game game, Long roundId) {
+        Round round = roundRepository.findById(roundId).orElseThrow(() -> new RuntimeException("Round não encontrado"));
+    
+        game.setRound(round);
         return gameRepository.save(game);
     }
 

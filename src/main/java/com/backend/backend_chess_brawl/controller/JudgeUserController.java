@@ -16,6 +16,7 @@ import com.backend.backend_chess_brawl.dtos.PlayerDTO;
 import com.backend.backend_chess_brawl.model.Event;
 import com.backend.backend_chess_brawl.model.Game;
 import com.backend.backend_chess_brawl.model.Player;
+import com.backend.backend_chess_brawl.model.Round;
 import com.backend.backend_chess_brawl.model.Tournament;
 import com.backend.backend_chess_brawl.service.EventService;
 import com.backend.backend_chess_brawl.service.GameService;
@@ -60,7 +61,8 @@ public class JudgeUserController {
 
     // Criação de Usuarios
     @PostMapping("/{tournamentId}/player")
-    public ResponseEntity<Player> registerPlayerInTournament(@PathVariable Long tournamentId, @RequestBody PlayerDTO playerDTO) {    
+    public ResponseEntity<?> registerPlayerInTournament(@PathVariable Long tournamentId, @RequestBody PlayerDTO playerDTO) {
+        try{    
         Player player = playerService.addPlayerToTurnament(
             tournamentId,
             playerDTO.getName(),
@@ -68,6 +70,9 @@ public class JudgeUserController {
             playerDTO.getRanking()
             );
             return ResponseEntity.ok(player);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // Consulta aos usuarios de um torneio
@@ -125,6 +130,12 @@ public class JudgeUserController {
         return ResponseEntity.ok(tournament);
     }
 
+    // Puxa os rounds dentro de um torneio
+    @GetMapping("/{tournamentId}")
+    public ResponseEntity<List<Round>> getTournamentRoundList(@PathVariable Long tournamentId) {
+        List<Round> rounds = roundService.findRoundByTournamentId(tournamentId);
 
+        return ResponseEntity.ok(rounds);
+    }
 
 }

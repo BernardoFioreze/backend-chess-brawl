@@ -28,6 +28,10 @@ public class PlayerService implements IPlayerService {
         Tournament tournament = tournamentRepository.findById(tournamentId)
         .orElseThrow(() -> new RuntimeException("Torneio não encontrado"));
 
+        if(tournament.getPlayers().size() >= 8){
+            throw new IllegalStateException("Cadastro maximo atingido !!!");
+        }
+
         Player player = new Player(name, nickname, ranking);
         player.setTournament(tournament);
 

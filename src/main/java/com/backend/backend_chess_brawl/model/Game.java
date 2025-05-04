@@ -1,5 +1,9 @@
 package com.backend.backend_chess_brawl.model;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +18,10 @@ import lombok.Data;
 @Entity
 @Table(name = "game")
 public class Game {
+
+    public Game() {
+        
+    }
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
@@ -43,10 +51,12 @@ public class Game {
 
     @ManyToOne
     @JoinColumn(name = "round_id")
+    @JsonBackReference
     private Round round;
-
+    
     @ManyToOne
     @JoinColumn(name = "tournament_id")
+    @JsonIgnore 
     private Tournament tournament;
 
 }

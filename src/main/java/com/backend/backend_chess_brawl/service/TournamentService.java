@@ -20,6 +20,9 @@ public class TournamentService implements ITournamentService {
     private TournamentRepository tournamentRepository;
 
     @Autowired
+    private RoundService roundService;
+
+    @Autowired
     private GameService gameService;
 
     @Override
@@ -36,11 +39,14 @@ public class TournamentService implements ITournamentService {
 
         List<Player> players = tournament.getPlayers();
 
-        if(players.size() > 4 || players.size() % 2 != 0) {
+        if(players.size() < 4 || players.size() % 2 != 0) {
             throw new IllegalStateException("Torneio precisa de até 4 jogadores e número par.");
         }
 
         Collections.shuffle(players);
+        Round round = new Round();
+        round = roundService.saveRound(round, tournamentId);
+
         List<Game> games = new ArrayList<>();
 
         for (int i = 0; i < players.size(); i += 2) {
@@ -48,16 +54,11 @@ public class TournamentService implements ITournamentService {
             Player player2 = players.get(i + 1);
 
             Game game = new Game(player1, player2);
-            games.add(gameService.saveGame(game));
+            gameService.saveGame(game, round.getId());
         }
 
-        Round round = new Round(games);
-
-        for (Game game : games) {
-            game.setRound(round);
-        }
-        
-        tournament.getRounds().add(round);
+        round.setGames(games);
+        roundService.saveRound(round, tournamentId);
 
         return tournamentRepository.save(tournament);
         
@@ -70,6 +71,9 @@ public class TournamentService implements ITournamentService {
         List<Player> players = tournament.getPlayers();
 
         Collections.shuffle(players);
+        Round round = new Round();
+        round = roundService.saveRound(round, tournamentId);
+
         List<Game> games = new ArrayList<>();
 
         for (int i = 0; i < players.size(); i += 2) {
@@ -77,16 +81,11 @@ public class TournamentService implements ITournamentService {
             Player player2 = players.get(i + 1);
 
             Game game = new Game(player1, player2);
-            games.add(gameService.saveGame(game));
+            gameService.saveGame(game, round.getId());
         }
 
-        Round round = new Round(games);
-
-        for (Game game : games) {
-            game.setRound(round);
-        }
-        
-        tournament.getRounds().add(round);
+        round.setGames(games);
+        roundService.saveRound(round, tournamentId);
 
         return tournamentRepository.save(tournament);
 
