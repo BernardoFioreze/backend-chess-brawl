@@ -138,6 +138,7 @@ public class JudgeUserController {
         return ResponseEntity.ok(rounds);
     }
 
+    // Puxa os eventos que foram previamente settados
     @GetMapping("/getEvents")
     public ResponseEntity<List<Event>> getEvents() {
         List<Event> events = eventService.findAllEvents();
