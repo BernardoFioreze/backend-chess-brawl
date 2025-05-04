@@ -131,11 +131,16 @@ public class JudgeUserController {
     }
 
     // Puxa os rounds dentro de um torneio
-    @GetMapping("/{tournamentId}")
+    @GetMapping("/getRounds/{tournamentId}")
     public ResponseEntity<List<Round>> getTournamentRoundList(@PathVariable Long tournamentId) {
         List<Round> rounds = roundService.findRoundByTournamentId(tournamentId);
 
         return ResponseEntity.ok(rounds);
     }
 
+    @GetMapping("/getEvents")
+    public ResponseEntity<List<Event>> getEvents() {
+        List<Event> events = eventService.findAllEvents();
+        return ResponseEntity.ok(events);
+    }
 }

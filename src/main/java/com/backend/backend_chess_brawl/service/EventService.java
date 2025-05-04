@@ -1,5 +1,7 @@
 package com.backend.backend_chess_brawl.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,12 @@ public class EventService implements IEventService {
     public Event findById(Long eventId) {
         return eventRepository.findById(eventId).orElse(null);
     }
+
+    @Override
+    public List<Event> findAllEvents() {
+        return eventRepository.findAll();
+    }
+
+    
 
 }
