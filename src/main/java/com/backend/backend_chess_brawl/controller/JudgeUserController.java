@@ -117,7 +117,7 @@ public class JudgeUserController {
     
     // Calcula o vencedor de cada game
     @PostMapping("/game/winner")
-    public ResponseEntity<Game> gameCalScore(@RequestBody GameDTO gameDTO) {
+    public ResponseEntity<Game> gameCalulateScore(@RequestBody GameDTO gameDTO) {
         Game game = gameService.calculateScore(gameDTO);
 
         return ResponseEntity.ok(game);
@@ -152,5 +152,13 @@ public class JudgeUserController {
     public ResponseEntity<List<Event>> getEvents() {
         List<Event> events = eventService.findAllEvents();
         return ResponseEntity.ok(events);
+    }
+
+    //Feature Extra *Calcula aleatoriament o vencedor da rodada
+    @PostMapping("/game/RandWinner")
+    public ResponseEntity<Game> gameRandScore(@RequestBody GameDTO gameDTO) {
+        Game game = gameService.calculateRandScore(gameDTO);
+
+        return ResponseEntity.ok(game);
     }
 }

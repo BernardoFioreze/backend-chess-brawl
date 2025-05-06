@@ -11,4 +11,6 @@ public interface IGameService {
 
     Game findById(Long gameId);
 
+    Game calculateRandScore(GameDTO gameDTO);
+
 }
