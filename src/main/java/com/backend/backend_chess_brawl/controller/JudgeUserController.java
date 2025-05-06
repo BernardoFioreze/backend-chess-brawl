@@ -116,14 +116,15 @@ public class JudgeUserController {
     }
     
     // Calcula o vencedor de cada game
-    @PostMapping("/game")
+    @PostMapping("/game/winner")
     public ResponseEntity<Game> gameCalScore(@RequestBody GameDTO gameDTO) {
         Game game = gameService.calculateScore(gameDTO);
+
         return ResponseEntity.ok(game);
     }
 
     // Cria uma nova roda em um torneio
-    @PostMapping("/{tournamentId}")
+    @PostMapping("/NewRound/{tournamentId}")
     public ResponseEntity<Tournament> createRound(@PathVariable Long tournamentId) {
         Tournament tournament = tournamentService.createRound(tournamentId);
 
@@ -136,6 +137,14 @@ public class JudgeUserController {
         List<Round> rounds = roundService.findRoundByTournamentId(tournamentId);
 
         return ResponseEntity.ok(rounds);
+    }
+
+    // Puxa o ultimo round de um torneio
+    @GetMapping("getLastRound/{tournamentId}")
+    public ResponseEntity<Round> getlastTournamentRound(@PathVariable Long tournamentId) {
+        Round round = roundService.findLastRoundByTournamentId(tournamentId);
+
+        return ResponseEntity.ok(round);
     }
 
     // Puxa os eventos que foram previamente settados

@@ -3,6 +3,8 @@ package com.backend.backend_chess_brawl.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.backend.backend_chess_brawl.model.Game;
 import com.backend.backend_chess_brawl.model.Player;
 import com.backend.backend_chess_brawl.model.Round;
+import com.backend.backend_chess_brawl.model.Status;
 import com.backend.backend_chess_brawl.model.Tournament;
 import com.backend.backend_chess_brawl.repository.TournamentRepository;
 
@@ -68,8 +71,15 @@ public class TournamentService implements ITournamentService {
     public Tournament createRound(Long tournamentId) {
         Tournament tournament = tournamentRepository.findById(tournamentId)
         .orElseThrow(() -> new RuntimeException("Torneio não encontrado"));
-        List<Player> players = tournament.getPlayers();
 
+        Round previousRound  = tournament.getRounds().getLast();
+
+        List<Player> players = previousRound.getGames().stream()
+            .filter(Game::isFinished)
+            .map(Game::getWinner)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+ 
         Collections.shuffle(players);
         Round round = new Round();
         round = roundService.saveRound(round, tournamentId);
@@ -79,6 +89,9 @@ public class TournamentService implements ITournamentService {
         for (int i = 0; i < players.size(); i += 2) {
             Player player1 = players.get(i);
             Player player2 = players.get(i + 1);
+
+            player1.setStatus(Status.PLAYING);
+            player2.setStatus(Status.PLAYING);
 
             Game game = new Game(player1, player2);
             gameService.saveGame(game, round.getId());

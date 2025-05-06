@@ -1,12 +1,20 @@
 package com.backend.backend_chess_brawl.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.backend.backend_chess_brawl.dtos.GameDTO;
+import com.backend.backend_chess_brawl.model.Event;
 import com.backend.backend_chess_brawl.model.Game;
 import com.backend.backend_chess_brawl.model.Player;
 import com.backend.backend_chess_brawl.model.Round;
+import com.backend.backend_chess_brawl.model.Status;
+import com.backend.backend_chess_brawl.repository.EventRepository;
 import com.backend.backend_chess_brawl.repository.GameRepository;
 import com.backend.backend_chess_brawl.repository.PlayerRepository;
 import com.backend.backend_chess_brawl.repository.RoundRepository;
@@ -23,30 +31,60 @@ public class GameService implements IGameService {
     @Autowired
     private RoundRepository roundRepository;
 
+    @Autowired
+    private EventRepository eventRepository;
+
     @Override
     public Game calculateScore(GameDTO gameDTO) {
+        Game game = gameRepository.findById(gameDTO.getGameId())
+        .orElseThrow(() -> new RuntimeException("Jogo não encontrado"));
+
         Player player1 = playerRepository.findById(gameDTO.getPlayer1Id())
             .orElseThrow(() -> new RuntimeException("Jogador 1 não encontrado"));
 
         Player player2 = playerRepository.findById(gameDTO.getPlayer2Id())
             .orElseThrow(() -> new RuntimeException("Jogador 2 não encontrado"));
 
-        Round round = roundRepository.findById(gameDTO.getRoundId())
-        .orElseThrow(() -> new RuntimeException("Round não encontrado"));
+        Map<Long, List<Long>> selectedEvents = gameDTO.getSelectedEvents();
 
-        Game game = new Game(player1, player2);
-        game.setRound(round);
+        
+        List<Event> player1Events = eventRepository.findAllById(selectedEvents.get(player1.getId()));
+        List<Event> player2Events = eventRepository.findAllById(selectedEvents.get(player2.getId()));
 
-        Player winner;
+        int player1Score = player1Events.stream().mapToInt(Event::getWeight).sum();
+        int player2Score = player2Events.stream().mapToInt(Event::getWeight).sum();
 
-        if (player1.getScore() > player2.getScore()) {
-            winner = player1;
-        } else if (player2.getScore() > player1.getScore()) {
-            winner = player2;
-        } else {
-            winner = Math.random() < 0.5 ? player1 : player2;
-            winner.setScore(winner.getScore() + 2);
+        player1.setScore(player1.getScore() + player1Score);
+        player2.setScore(player2.getScore() + player2Score);
+        player1.getEvents().clear();
+        player1.getEvents().addAll(player1Events);
+        player2.getEvents().clear();
+        player2.getEvents().addAll(player2Events);
+
+        Player winner = player1;
+        Player loser = player2;
+
+
+        Random rand = new Random();
+
+        if (Objects.equals(player1.getScore(), player2.getScore())) {
+            if (rand.nextBoolean()) {
+                player1.setScore(player1.getScore() + 2);
+            } else {
+                player2.setScore(player2.getScore() + 2);
+            }
         }
+
+        if (player1.getScore() < player2.getScore()) {
+            winner = player2;
+            loser = player1;
+        }
+
+        winner.setStatus(Status.WINNER);
+        loser.setStatus(Status.LOSER);
+
+        winner.setScore(winner.getScore() + 30);
+    
 
         game.setWinner(winner);
         game.setFinished(true);

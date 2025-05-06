@@ -10,6 +10,8 @@ public interface IRoundService {
 
     List<Round> findRoundByTournamentId(Long tournamentId);
 
+    Round findLastRoundByTournamentId(Long tournamentId);
+
     Round findById(Long roundId);
 
 }

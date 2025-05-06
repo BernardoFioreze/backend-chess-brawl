@@ -40,4 +40,11 @@ public class RoundService implements IRoundService {
 
     }
 
+    @Override
+    public Round findLastRoundByTournamentId(Long tournamentId) {
+        Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> new RuntimeException("Tournament não encontrado"));
+
+        return tournament.getRounds().getLast();
+    }
+
 }
