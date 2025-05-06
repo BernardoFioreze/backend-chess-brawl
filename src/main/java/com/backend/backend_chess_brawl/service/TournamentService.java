@@ -94,10 +94,14 @@ public class TournamentService implements ITournamentService {
             player2.setStatus(Status.PLAYING);
 
             Game game = new Game(player1, player2);
-            gameService.saveGame(game, round.getId());
+            game.setRound(round);
+            game = gameService.saveGame(game, round.getId());
+            games.add(game);
+
         }
 
         round.setGames(games);
+        tournament.getRounds().add(round);
         roundService.saveRound(round, tournamentId);
 
         return tournamentRepository.save(tournament);

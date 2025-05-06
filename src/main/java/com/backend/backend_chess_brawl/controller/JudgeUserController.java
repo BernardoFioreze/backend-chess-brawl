@@ -140,7 +140,7 @@ public class JudgeUserController {
     }
 
     // Puxa o ultimo round de um torneio
-    @GetMapping("getLastRound/{tournamentId}")
+    @GetMapping("/getLastRound/{tournamentId}")
     public ResponseEntity<Round> getlastTournamentRound(@PathVariable Long tournamentId) {
         Round round = roundService.findLastRoundByTournamentId(tournamentId);
 

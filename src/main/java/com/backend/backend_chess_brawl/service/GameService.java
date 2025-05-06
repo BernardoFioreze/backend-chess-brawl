@@ -56,8 +56,10 @@ public class GameService implements IGameService {
 
         player1.setScore(player1.getScore() + player1Score);
         player2.setScore(player2.getScore() + player2Score);
+
         player1.getEvents().clear();
         player1.getEvents().addAll(player1Events);
+
         player2.getEvents().clear();
         player2.getEvents().addAll(player2Events);
 
@@ -84,7 +86,9 @@ public class GameService implements IGameService {
         loser.setStatus(Status.LOSER);
 
         winner.setScore(winner.getScore() + 30);
-    
+        
+        playerRepository.save(player1);
+        playerRepository.save(player2);
 
         game.setWinner(winner);
         game.setFinished(true);
