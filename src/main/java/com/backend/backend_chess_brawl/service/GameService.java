@@ -121,11 +121,20 @@ public class GameService implements IGameService {
         Player player2 = playerRepository.findById(gameDTO.getPlayer2Id())
             .orElseThrow(() -> new RuntimeException("Jogador 2 não encontrado"));
 
-        List<Event> allEvents = eventRepository.findAll();
+        Map<Long, List<Long>> selectedEvents = gameDTO.getSelectedEvents();
+
+        List<Event> allEvents = eventRepository.findAllById(selectedEvents.get(player1.getId()));
 
         Collections.shuffle(allEvents);
         List<Event> player1Events = allEvents.subList(0, 3);
         List<Event> player2Events = allEvents.subList(3, 6);
+
+        
+        int player1Score = player1Events.stream().mapToInt(Event::getWeight).sum();
+        int player2Score = player2Events.stream().mapToInt(Event::getWeight).sum();
+
+        player1.setScore(player1.getScore() + player1Score);
+        player2.setScore(player2.getScore() + player2Score);
 
         player1.getEvents().clear();
         player1.getEvents().addAll(player1Events);
