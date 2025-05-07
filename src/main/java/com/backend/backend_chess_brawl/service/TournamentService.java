@@ -42,8 +42,8 @@ public class TournamentService implements ITournamentService {
 
         List<Player> players = tournament.getPlayers();
 
-        if(players.size() < 4 || players.size() % 2 != 0) {
-            throw new IllegalStateException("Torneio precisa de até 4 jogadores e número par.");
+        if(players.size() < 4 || players.size() % 2 != 0 || players.size() == 6) {
+            throw new IllegalStateException("Torneio precisa de 4 ou 8 players");
         }
 
         Collections.shuffle(players);
