@@ -3,6 +3,7 @@ package com.backend.backend_chess_brawl.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -68,7 +69,7 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
-    @com.fasterxml.jackson.annotation.JsonBackReference
+    @JsonBackReference
     private Tournament tournament;
 
 
