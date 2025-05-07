@@ -68,7 +68,6 @@ public class PlayerService implements IPlayerService {
                 throw new IllegalStateException("Evento já atribuído ao jogador: ID " + eventId);
             }
 
-            event.setPlayer(player);
 
             player.setScore(player.getScore() + event.getWeight());
         }

@@ -1,11 +1,17 @@
 package com.backend.backend_chess_brawl.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -33,7 +39,9 @@ public class Event {
     @Column(name = "weight")
     private Integer weight;
 
-    @ManyToOne
-    private Player player;
+
+    @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("events")
+    private List<Player> players = new ArrayList<>();
 
 }

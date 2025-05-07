@@ -129,7 +129,6 @@ public class GameService implements IGameService {
         List<Event> player1Events = allEvents.subList(0, 3);
         List<Event> player2Events = allEvents.subList(3, 6);
 
-        
         int player1Score = player1Events.stream().mapToInt(Event::getWeight).sum();
         int player2Score = player2Events.stream().mapToInt(Event::getWeight).sum();
 

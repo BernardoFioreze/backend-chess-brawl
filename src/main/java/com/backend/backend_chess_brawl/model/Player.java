@@ -1,18 +1,22 @@
 package com.backend.backend_chess_brawl.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -49,8 +53,14 @@ public class Player {
     @Column(name = "score")
     private Integer score;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Event> events;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("players")
+    @JoinTable(
+        name = "player_events",
+        joinColumns = @JoinColumn(name = "players_id"),
+        inverseJoinColumns = @JoinColumn(name = "events_id")
+    )
+    private List<Event> events = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
