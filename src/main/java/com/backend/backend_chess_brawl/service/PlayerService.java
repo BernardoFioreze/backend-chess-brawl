@@ -28,6 +28,19 @@ public class PlayerService implements IPlayerService {
         Tournament tournament = tournamentRepository.findById(tournamentId)
         .orElseThrow(() -> new RuntimeException("Torneio não encontrado"));
 
+        boolean nicknameExists = tournament.getPlayers().stream()
+        .anyMatch(player -> player.getNickname().equalsIgnoreCase(nickname));
+
+        int rankInt = Integer.parseInt(ranking);
+
+        if (nicknameExists) {
+            throw new IllegalArgumentException("Já existe um jogador com esse nickname no torneio!");
+        }
+
+        if (rankInt <= 0 || rankInt > 15000) {
+            throw new IllegalArgumentException("Ranking Invalido");
+        }
+
         if(tournament.getPlayers().size() >= 8){
             throw new IllegalStateException("Cadastro maximo atingido !!!");
         }

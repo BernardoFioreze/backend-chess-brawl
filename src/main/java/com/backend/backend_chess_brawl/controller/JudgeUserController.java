@@ -70,7 +70,7 @@ public class JudgeUserController {
             playerDTO.getRanking()
             );
             return ResponseEntity.ok(player);
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
